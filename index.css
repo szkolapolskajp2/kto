@@ -1,0 +1,97 @@
+body {
+  text-align: center;
+}
+#app {
+  display: inline-block;
+  font-size: 32px;
+}
+
+select,
+button {
+  padding: 10px;
+  margin: 10px;
+}
+input {
+  font-size: 22px;
+  padding: 4px;
+}
+
+.school-table {
+  white-space: nowrap;
+  border: solid 1px #ddeeee;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: normal .8rem Arial, sans-serif;
+}
+
+tr.classMother td {
+  font-weight: bold;
+}
+
+.school-table tbody td {
+  border: solid 1px #ddeeee;
+  color: #333;
+  padding: .8rem .4rem;
+  text-shadow: 1px 1px 1px #fff;
+}
+
+.school-table tbody td.studentName {
+  padding: .8rem .1rem;
+  font: normal .6rem Arial, sans-serif;
+}
+.school-table tbody td.parentName {
+  padding: .8rem .1rem;
+}
+
+
+@media only screen and (min-width: 1000px) {
+  .school-table {
+    font: normal 1.4rem Arial, sans-serif;
+  }
+  .school-table tbody td {
+    padding: 0.5rem 1rem;
+  }
+  .school-table tbody td.studentName {
+    padding: .8rem .1rem;
+    font: normal .9rem Arial, sans-serif;
+  }
+}
+
+.cp-able {
+  cursor: pointer;
+  position: relative;
+}
+
+.cp-able:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.cp-able:active {
+  top: calc(50% - 1.3rem);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+#toaster {
+  box-sizing: border-box;
+  position: fixed;
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: 99999999;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+#toaster .toast {
+  font-size: 2rem;
+  font-weight: Bold;
+  padding: 6px 18px;
+  background-color: rgba(95, 180, 70, 0.8);
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
+  margin-bottom: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}

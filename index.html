@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>
+      Polska Szkola
+    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"
+      integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://unpkg.com/vue@3.2"></script>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <ul id="toaster"></ul>
+    <div id="app">
+      <label>
+        Klasa
+        <select v-model="klasa" @change="onClassChange()">
+          <option value="-1">przedszkole</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+        </select>
+      </label>
+      <label>
+        Haslo
+        <input type="text" v-model="haslo" />
+      </label>
+      <button @click="fetchClass()">Submit</button>
+      <div v-if="data">
+        <table class="school-table">
+          <thead>
+            <tr>
+              <th>Uczeń</th>
+              <th>Rodzic</th>
+              <th>tel Rodzica</th>
+              <th>email Rodzica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              :class="parent.classMother && 'classMother'"
+              v-for="parent in data.parents"
+            >
+              <td class='studentName'>{{parent.studentName}}{{this.dupKidNames.includes(parent.studentName) ? ` ${parent.studentLastInitial}.` : ''}}</td>
+              <td class='parentName'>{{parent.parentName}}</td>
+              <td
+                :class="parent.parentNum && 'cp-able'"
+                @click="copyToClipboard(parent.parentNum)"
+              >
+                {{parent.parentNum}}
+              </td>
+              <td
+                :class="parent.parentEmail && 'cp-able'"
+                @click="copyToClipboard(parent.parentEmail)"
+              >
+                {{parent.parentEmail}}
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td
+                class="cp-able"
+                @click="copyArrayToClipboard(data.parents)"
+              >
+                Email do wszystkich
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div><h4>Rodzice Klas:</h4></div>
+
+        <table class="school-table">
+          <thead>
+            <tr>
+              <th>klasa</th>
+              <th>Rodzic</th>
+              <th>tel Rodzica</th>
+              <th>email Rodzica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="parent in data.classMothers">
+              <td>{{parent.grade}}</td>
+              <td>{{parent.parentName}}</td>
+              <td
+                :class="parent.parentNum && 'cp-able'"
+                @click="copyToClipboard(parent.parentNum)"
+              >
+                {{parent.parentNum}}
+              </td>
+              <td
+                :class="parent.parentEmail && 'cp-able'"
+                @click="copyToClipboard(parent.parentEmail)"
+              >
+                {{parent.parentEmail}}
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td
+                class="cp-able"
+                @click="copyArrayToClipboard(data.classMothers)"
+              >
+                Email do wszystkich
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div><h4>Inni:</h4></div>
+
+        <table class="school-table">
+          <thead>
+            <tr>
+              <th>Imię</th>
+              <th>tel</th>
+              <th>email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="director in data.directors">
+              <td>{{director.name}}</td>
+              <td
+                :class="director.number && 'cp-able'"
+                @click="copyToClipboard(director.number)"
+              >
+                {{director.number}}
+              </td>
+              <td
+                :class="director.email && 'cp-able'"
+                @click="copyToClipboard(director.email)"
+              >
+                {{director.email}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
