@@ -1,4 +1,5 @@
 .env
 hasla.json
-data.unencrypted
 node_modules
+unencrypted
+unencrypted/

@@ -17,6 +17,7 @@ input {
 }
 
 .school-table {
+  margin: auto;
   white-space: nowrap;
   border: solid 1px #ddeeee;
   border-collapse: collapse;

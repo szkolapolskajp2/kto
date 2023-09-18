@@ -1,7 +1,18 @@
 const CryptoJS = require("crypto-js");
 const fs = require("fs");
-const passwords = require("./hasla.json");
-const data = fs.readFileSync("./data.unencrypted", "utf8").trim().split("\n");
+const passwords = require("./unencrypted/hasla.json");
+const students = fs
+  .readFileSync("./unencrypted/students.unencrypted", "utf8")
+  .trim()
+  .split("\n");
+const mothers = fs
+  .readFileSync("./unencrypted/mothers.unencrypted", "utf8")
+  .trim()
+  .split("\n");
+const directors = fs
+  .readFileSync("./unencrypted/directors.unencrypted", "utf8")
+  .trim()
+  .split("\n");
 
 const encryptWithAES = (text, passphrase) =>
   CryptoJS.AES.encrypt(text, passphrase).toString();
@@ -25,28 +36,43 @@ const parsed = {
   11: [],
 };
 
-for (const line of data) {
-  if (!line.trim()) continue;
-  const [grade, ...rest] = line.split("\t").map((a) => a.trim());
-  if (parsed[grade]) {
-    const el = {
-      grade,
-      studentName: rest[0],
-      studentLastInitial: rest[1][0] || "",
-      parentName: rest[3],
-      parentNum: rest[5],
-      parentEmail: rest[6],
-      classMother: rest[10] === "t",
-    };
-    parsed[grade].push(el);
-    el.classMother && parsed.classMothers.push(el);
-  } else {
-    parsed.directors.push({
-      name: [rest[3], rest[4]].join(" "),
-      number: rest[5],
-      email: rest[6],
-    });
-  }
+for (const director of directors) {
+  const [fname, lname, email, number] = director
+    .split(/\s+/)
+    .map((a) => a.trim());
+  parsed.directors.push({
+    name: [fname, lname].join(" "),
+    email,
+    number,
+  });
+}
+for (const mother of mothers) {
+  const [grade, fname, lname, parentEmail, parentNum] = mother
+    .split(/\s+/)
+    .map((a) => a.trim());
+  parsed.classMothers.push({
+    grade,
+    parentName: [fname, lname].join(" "),
+    parentNum,
+    parentEmail,
+  });
+}
+
+for (const student of students) {
+  if (!student.trim()) continue;
+  const [fname, lname, ...rest] = student.split("\t").map((a) => a.trim());
+  const grade = rest[6];
+  const parentName = [rest[8], rest[9]].join(" ");
+  const parentNum = rest[11];
+  const parentEmail = rest[12];
+  parsed[grade].push({
+    grade,
+    studentName: fname,
+    studentLastInitial: lname[0] || "",
+    parentName,
+    parentNum,
+    parentEmail,
+  });
 }
 
 for (const [grade, password] of Object.entries(passwords)) {
