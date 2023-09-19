@@ -1,6 +1,10 @@
 let encrytpedFile;
 // prettier-ignore
 const letterMap = {ą: "a",  ć: "c",  ę: "e",  ł: "l",  ń: "n",  ó: "o",  ś: "s",  ź: "z",  ż: "z"};
+const print = () => {
+  $$('div div > *:not(:first-child)').forEach(a => a.remove())
+  window.print()
+}
 
 const decrypt = (text, passphrase) =>
   CryptoJS.AES.decrypt(
