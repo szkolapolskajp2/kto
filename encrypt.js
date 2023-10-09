@@ -65,14 +65,26 @@ for (const student of students) {
   const parentName = [rest[8], rest[9]].join(" ");
   const parentNum = rest[11];
   const parentEmail = rest[12];
-  parsed[grade].push({
-    grade,
-    studentName: fname,
-    studentLastInitial: lname[0] || "",
-    parentName,
-    parentNum,
-    parentEmail,
-  });
+  try {
+    parsed[grade].push({
+      grade,
+      studentName: fname,
+      studentLastInitial: lname[0] || "",
+      parentName,
+      parentNum,
+      parentEmail,
+    });
+  } catch (e) {
+    console.log({
+      fname,
+      lname,
+      grade,
+      parentName,
+      parentNum,
+      parentEmail,
+    });
+    throw e;
+  }
 }
 
 for (const [grade, password] of Object.entries(passwords)) {
