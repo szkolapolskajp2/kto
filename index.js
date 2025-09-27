@@ -1,5 +1,12 @@
 let encrytpedFile;
 // prettier-ignore
+
+const query = new URLSearchParams(window.location.search)
+if(query.size===2){
+  localStorage.setItem(query.get('k'), query.get('h'));
+  localStorage.setItem('lastSelected', query.get('k'));
+}
+
 const letterMap = {ą: "a",  ć: "c",  ę: "e",  ł: "l",  ń: "n",  ó: "o",  ś: "s",  ź: "z",  ż: "z"};
 const print = () => {
   $$('div div > *:not(:first-child)').forEach(a => a.remove())
