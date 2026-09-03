@@ -21,6 +21,7 @@ const encrypted = {};
 const parsed = {
   classMothers: [],
   directors: [],
+  "-2": [],
   "-1": [],
   0: [],
   1: [],
