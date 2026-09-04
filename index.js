@@ -1,10 +1,27 @@
 let encrytpedFile;
 // prettier-ignore
-const letterMap = {ą: "a",  ć: "c",  ę: "e",  ł: "l",  ń: "n",  ó: "o",  ś: "s",  ź: "z",  ż: "z"};
-const print = () => {
-  $$('div div > *:not(:first-child)').forEach(a => a.remove())
-  window.print()
+
+const query = new URLSearchParams(window.location.search)
+if (query.size === 2) {
+  localStorage.setItem(query.get("k"), query.get("h"));
+  localStorage.setItem("lastSelected", query.get("k"));
 }
+
+const letterMap = {
+  ą: "a",
+  ć: "c",
+  ę: "e",
+  ł: "l",
+  ń: "n",
+  ó: "o",
+  ś: "s",
+  ź: "z",
+  ż: "z",
+};
+const print = () => {
+  $$("div div > *:not(:first-child)").forEach((a) => a.remove());
+  window.print();
+};
 
 const decrypt = (text, passphrase) =>
   CryptoJS.AES.decrypt(
@@ -18,10 +35,11 @@ const decrypt = (text, passphrase) =>
 
 const app = Vue.createApp({
   data() {
-    const lastSelected = localStorage.getItem('lastSelected');
+    const lastSelected = localStorage.getItem("lastSelected");
     return {
-      klasa: lastSelected || '',
-      haslo: localStorage.getItem(lastSelected) || '',
+      klasa: lastSelected || "",
+      email: "@szkolapolskajp2.com",
+      haslo: localStorage.getItem(lastSelected) || "",
       data: null,
       dupKidNames: [],
     };
@@ -35,10 +53,29 @@ const app = Vue.createApp({
 
       try {
         this.data = JSON.parse(decrypt(res[this.klasa], this.haslo));
-        this.dupKidNames = this.data.parents.map(a => a.studentName).filter((e, i, a) => a.indexOf(e) !== i)
-        console.log(this.dupKidNames)
+        this.dupKidNames = this.data.parents
+          .map((a) => a.studentName)
+          .filter((e, i, a) => a.indexOf(e) !== i);
+        this.email = {
+          "-2": "psl@szkolapolskajp2.com",
+          "-1": "przedszkole@szkolapolskajp2.com",
+          0: "klasa0@szkolapolskajp2.com",
+          1: "klasa1@szkolapolskajp2.com",
+          2: "klasa2@szkolapolskajp2.com",
+          3: "klasa3@szkolapolskajp2.com",
+          4: "klasa4@szkolapolskajp2.com",
+          5: "klasa5@szkolapolskajp2.com",
+          6: "klasa6@szkolapolskajp2.com",
+          7: "klasa7@szkolapolskajp2.com",
+          8: "klasa8@szkolapolskajp2.com",
+          9: "klasa9@szkolapolskajp2.com",
+          10: "klasa10@szkolapolskajp2.com",
+          11: "klasa11@szkolapolskajp2.com",
+        }[this.klasa];
+        
+        console.log(this.dupKidNames);
         localStorage.setItem(this.klasa, this.haslo);
-        localStorage.setItem('lastSelected', this.klasa);
+        localStorage.setItem("lastSelected", this.klasa);
         // console.log(JSON.parse(decrypt(res[this.klasa], this.haslo)));
       } catch (e) {
         console.error("zle haslo", e);
@@ -51,8 +88,10 @@ const app = Vue.createApp({
     },
 
     copyArrayToClipboard(arr) {
-      const filtered = arr.map(p => p.parentEmail).filter( (a, index, self) => (a && self.indexOf(a) === index) );
-      this.copyToClipboard(filtered.join(';'));
+      const filtered = arr
+        .map((p) => p.parentEmail)
+        .filter((a, index, self) => a && self.indexOf(a) === index);
+      this.copyToClipboard(filtered.join(";"));
     },
 
     copyToClipboard(str) {
