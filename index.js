@@ -57,7 +57,7 @@ const app = Vue.createApp({
           .map((a) => a.studentName)
           .filter((e, i, a) => a.indexOf(e) !== i);
         this.email = {
-          "-2": "psl@szkolapolskajp2.com",
+          "psl": "psl@szkolapolskajp2.com",
           "-1": "przedszkole@szkolapolskajp2.com",
           0: "klasa0@szkolapolskajp2.com",
           1: "klasa1@szkolapolskajp2.com",
@@ -72,7 +72,7 @@ const app = Vue.createApp({
           10: "klasa10@szkolapolskajp2.com",
           11: "klasa11@szkolapolskajp2.com",
         }[this.klasa];
-        
+
         console.log(this.dupKidNames);
         localStorage.setItem(this.klasa, this.haslo);
         localStorage.setItem("lastSelected", this.klasa);
